@@ -24,25 +24,32 @@ const GenreInfo = ({ bookCount, popularity }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        paddingVertical: 20,
-        margin: SIZES.padding,
+        paddingVertical: SIZES.padding / 2,
+        marginHorizontal: SIZES.padding,
         borderRadius: SIZES.radius,
-        backgroundColor: "rgba(0,0,0,0.3)",
+        backgroundColor: "rgba(255,255,255,0.1)", // Updated background for better contrast
+        alignItems: 'center', // Align items centrally
+        shadowColor: "#000", // Adding shadow for better depth
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 5, // For Android shadow
     },
     infoItem: {
         flex: 1,
         alignItems: 'center',
     },
     infoItemWithPadding: {
-        paddingHorizontal: SIZES.radius,
+        paddingHorizontal: SIZES.padding,
     },
     infoValue: {
         ...FONTS.h3,
         color: COLORS.white,
+        marginBottom: 5, // Added margin for spacing
     },
     infoLabel: {
         ...FONTS.body4,
-        color: COLORS.white,
+        color: COLORS.lightGray, // Light gray for secondary text
     },
 });
 
