@@ -6,14 +6,15 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    Animated
+    Animated,
+    StyleSheet
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons } from "../constants";
 
 const LineDivider = () => {
     return (
-        <View style={{ width: 1, paddingVertical: 5 }}>
-            <View style={{ flex: 1, borderLeftColor: COLORS.lightGray2, borderLeftWidth: 1 }}></View>
+        <View style={styles.lineDividerContainer}>
+            <View style={styles.lineDivider}></View>
         </View>
     )
 }
@@ -34,119 +35,82 @@ const BookDetail = ({ route, navigation }) => {
 
     function renderBookInfoSection() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.infoSectionContainer}>
                 <ImageBackground
                     source={book.bookCover}
                     resizeMode="cover"
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
-                    }}
+                    style={styles.imageBackground}
                 />
 
                 {/* Color Overlay */}
-                <View
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                        backgroundColor: book.backgroundColor
-                    }}
-                >
-                </View>
+                <View style={[styles.colorOverlay, { backgroundColor: book.backgroundColor }]} />
 
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.radius, height: 80, alignItems: 'flex-end' }}>
+                <View style={styles.headerContainer}>
                     <TouchableOpacity
-                        style={{ marginLeft: SIZES.base }}
+                        style={styles.backButton}
                         onPress={() => navigation.goBack()}
                     >
                         <Image
                             source={icons.back_arrow_icon}
                             resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: book.navTintColor
-                            }}
+                            style={[styles.headerIcon, { tintColor: book.navTintColor }]}
                         />
                     </TouchableOpacity>
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: book.navTintColor }}>Book Detail</Text>
+                    <View style={styles.headerTitleContainer}>
+                        <Text style={[styles.headerTitle, { color: book.navTintColor }]}>Book Detail</Text>
                     </View>
 
                     <TouchableOpacity
-                        style={{ marginRigth: SIZES.base }}
+                        style={styles.moreButton}
                         onPress={() => console.log("Click More")}
                     >
                         <Image
                             source={icons.more_icon}
                             resizeMode="contain"
-                            style={{
-                                width: 30,
-                                height: 30,
-                                tintColor: book.navTintColor,
-                                alignSelf: 'flex-end'
-                            }}
+                            style={[styles.headerIcon, { tintColor: book.navTintColor }]}
                         />
                     </TouchableOpacity>
                 </View>
 
                 {/* Book Cover */}
-                <View style={{ flex: 5, paddingTop: SIZES.padding2, alignItems: 'center' }}>
+                <View style={styles.bookCoverContainer}>
                     <Image
                         source={book.bookCover}
                         resizeMode="contain"
-                        style={{
-                            flex: 1,
-                            width: 150,
-                            height: "auto"
-                        }}
+                        style={styles.bookCover}
                     />
                 </View>
 
                 {/* Book Name and Author */}
-                <View style={{ flex: 1.8, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ ...FONTS.h2, color: book.navTintColor }}>{book.bookName}</Text>
-                    <Text style={{ ...FONTS.body3, color: book.navTintColor }}>{book.author}</Text>
+                <View style={styles.bookInfoContainer}>
+                    <Text style={[styles.bookName, { color: book.navTintColor }]}>{book.bookName}</Text>
+                    <Text style={[styles.bookAuthor, { color: book.navTintColor }]}>{book.author}</Text>
                 </View>
 
                 {/* Book Info */}
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        paddingVertical: 20,
-                        margin: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor: "rgba(0,0,0,0.3)"
-                    }}
-                >
+                <View style={styles.bookStatsContainer}>
                     {/* Rating */}
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{book.rating}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Rating</Text>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statValue}>{book.rating}</Text>
+                        <Text style={styles.statLabel}>Rating</Text>
                     </View>
 
                     <LineDivider />
 
                     {/* Pages */}
-                    <View style={{ flex: 1, paddingHorizontal: SIZES.radius, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{book.pageNo}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Number of Page</Text>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statValue}>{book.pageNo}</Text>
+                        <Text style={styles.statLabel}>Number of Pages</Text>
                     </View>
 
                     <LineDivider />
 
                     {/* Language */}
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{book.language}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Language</Text>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statValue}>{book.language}</Text>
+                        <Text style={styles.statLabel}>Language</Text>
                     </View>
                 </View>
             </View>
@@ -154,127 +118,70 @@ const BookDetail = ({ route, navigation }) => {
     }
 
     function renderBookDescription() {
-
-        const indicatorSize = scrollViewWholeHeight > scrollViewVisibleHeight ? scrollViewVisibleHeight * scrollViewVisibleHeight / scrollViewWholeHeight : scrollViewVisibleHeight
-
-        const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1
+        const indicatorSize = scrollViewWholeHeight > scrollViewVisibleHeight ? scrollViewVisibleHeight * scrollViewVisibleHeight / scrollViewWholeHeight : scrollViewVisibleHeight;
+        const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1;
 
         return (
-            <View style={{ flex: 1, flexDirection: 'row', padding: SIZES.padding }}>
+            <View style={styles.descriptionContainer}>
                 {/* Custom Scrollbar */}
-                <View style={{ width: 4, height: "100%", backgroundColor: COLORS.gray1 }}>
+                <View style={styles.scrollBarContainer}>
                     <Animated.View
-                        style={{
-                            width: 4,
-                            height: indicatorSize,
-                            backgroundColor: COLORS.lightGray4,
-                            transform: [{
-                                translateY: Animated.multiply(indicator, scrollViewVisibleHeight / scrollViewWholeHeight).interpolate({
-                                    inputRange: [0, difference],
-                                    outputRange: [0, difference],
-                                    extrapolate: 'clamp'
-                                })
-                            }]
-                        }}
+                        style={[
+                            styles.scrollIndicator,
+                            {
+                                height: indicatorSize,
+                                transform: [{
+                                    translateY: Animated.multiply(indicator, scrollViewVisibleHeight / scrollViewWholeHeight).interpolate({
+                                        inputRange: [0, difference],
+                                        outputRange: [0, difference],
+                                        extrapolate: 'clamp'
+                                    })
+                                }]
+                            }
+                        ]}
                     />
                 </View>
 
                 {/* Description */}
                 <ScrollView
-                    contentContainerStyle={{ paddingLeft: SIZES.padding2 }}
+                    contentContainerStyle={styles.scrollViewContent}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
-                    onContentSizeChange={(width, height) => {
-                        setScrollViewWholeHeight(height)
-                    }}
-                    onLayout={({ nativeEvent: { layout: { x, y, width, height } } }) => {
-                        setScrollViewVisibleHeight(height)
-                    }}
+                    onContentSizeChange={(width, height) => setScrollViewWholeHeight(height)}
+                    onLayout={({ nativeEvent: { layout: { height } } }) => setScrollViewVisibleHeight(height)}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: indicator } } }],
                         { useNativeDriver: false }
                     )}
                 >
-                    <Text style={{ ...FONTS.h2, color: COLORS.white, marginBottom: SIZES.padding }}>Description</Text>
-                    <Text style={{ ...FONTS.body2, color: COLORS.lightGray }}>{book.description}</Text>
+                    <Text style={styles.descriptionTitle}>Description</Text>
+                    <Text style={styles.descriptionText}>{book.description}</Text>
                 </ScrollView>
             </View>
         )
     }
 
     function renderBottomButton() {
-
-         const bookmarkButtonStyle = {
-        width: 60,
-        backgroundColor: COLORS.secondary,
-        marginLeft: SIZES.padding,
-        marginVertical: SIZES.base,
-        borderRadius: SIZES.radius,
-        alignItems: 'center',
-        justifyContent: 'center',
-    };
-
-    const startReadingButtonStyle = {
-        flex: 1,
-        backgroundColor: COLORS.primary,
-        marginHorizontal: SIZES.base,
-        marginVertical: SIZES.base,
-        borderRadius: SIZES.radius,
-        alignItems: 'center',
-        justifyContent: 'center',
-    };
-
-    const iconStyle = {
-        width: 25,
-        height: 25,
-        tintColor: COLORS.lightGray2,
-    };
-
-    const textStyle = {
-        ...FONTS.h3,
-        color: COLORS.white,
-    };
-
         return (
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={styles.bottomButtonContainer}>
                 {/* Bookmark */}
                 <TouchableOpacity
-                    style={{
-                        width: 60,
-                        backgroundColor: COLORS.secondary,
-                        marginLeft: SIZES.padding,
-                        marginVertical: SIZES.base,
-                        borderRadius: SIZES.radius,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
+                    style={styles.bookmarkButton}
                     onPress={() => console.log("Bookmark")}
                 >
                     <Image
                         source={icons.bookmark_icon}
                         resizeMode="contain"
-                        style={{
-                            width: 25,
-                            height: 25,
-                            tintColor: COLORS.lightGray2
-                        }}
+                        style={styles.bookmarkIcon}
                     />
                 </TouchableOpacity>
 
                 {/* Start Reading */}
                 <TouchableOpacity
-                    style={{
-                        flex: 1,
-                        backgroundColor: COLORS.primary,
-                        marginHorizontal: SIZES.base,
-                        marginVertical: SIZES.base,
-                        borderRadius: SIZES.radius,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
+                    style={styles.startReadingButton}
                     onPress={() => console.log("Start Reading")}
                 >
-                    <Text style={{ ...FONTS.h3, color: COLORS.white }}>Start Reading</Text>
+                    <Text style={styles.startReadingText}>Start Reading</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -282,19 +189,19 @@ const BookDetail = ({ route, navigation }) => {
 
     if (book) {
         return (
-            <View style={{ flex: 1, backgroundColor: COLORS.black }}>
+            <View style={styles.container}>
                 {/* Book Cover Section */}
-                <View style={{ flex: 4 }}>
+                <View style={styles.bookCoverSection}>
                     {renderBookInfoSection()}
                 </View>
 
                 {/* Description */}
-                <View style={{ flex: 2 }}>
+                <View style={styles.bookDescriptionSection}>
                     {renderBookDescription()}
                 </View>
 
                 {/* Buttons */}
-                <View style={{ height: 70, marginBottom: 30 }}>
+                <View style={styles.bottomButtonSection}>
                     {renderBottomButton()}
                 </View>
             </View>
@@ -302,7 +209,129 @@ const BookDetail = ({ route, navigation }) => {
     } else {
         return (<></>)
     }
-
 }
 
-export default BookDetail;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.black,
+    },
+    lineDividerContainer: {
+        width: 1,
+        paddingVertical: 5,
+    },
+    lineDivider: {
+        flex: 1,
+        borderLeftColor: COLORS.lightGray2,
+        borderLeftWidth: 1,
+    },
+    infoSectionContainer: {
+        flex: 1,
+    },
+    imageBackground: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+    },
+    colorOverlay: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: SIZES.radius,
+        height: 80,
+        alignItems: 'flex-end',
+    },
+    backButton: {
+        marginLeft: SIZES.base,
+    },
+    headerIcon: {
+        width: 25,
+        height: 25,
+    },
+    headerTitleContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerTitle: {
+        ...FONTS.h3,
+    },
+    moreButton: {
+        marginRight: SIZES.base,
+    },
+    bookCoverContainer: {
+        flex: 5,
+        paddingTop: SIZES.padding2,
+        alignItems: 'center',
+    },
+    bookCover: {
+        flex: 1,
+        width: 150,
+        height: "auto",
+    },
+    bookInfoContainer: {
+        flex: 1.8,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    bookName: {
+        ...FONTS.h2,
+    },
+    bookAuthor: {
+        ...FONTS.body3,
+    },
+    bookStatsContainer: {
+        flexDirection: 'row',
+        paddingVertical: 20,
+        margin: SIZES.padding,
+        borderRadius: SIZES.radius,
+        backgroundColor: "rgba(0,0,0,0.5)",
+    },
+    statItem: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    statValue: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    statLabel: {
+        ...FONTS.body4,
+        color: COLORS.lightGray,
+    },
+    descriptionContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: SIZES.padding,
+    },
+    scrollBarContainer: {
+        width: 4,
+        height: "100%",
+        backgroundColor: COLORS.gray1,
+    },
+    scrollIndicator: {
+        width: 4,
+        backgroundColor: COLORS.lightGray4,
+    },
+    scrollViewContent: {
+        paddingLeft: SIZES.padding2,
+    },
+    descriptionTitle: {
+        ...FONTS.h2,
+        color: COLORS.white,
+        marginBottom: SIZES.padding,
+    },
+    descriptionText: {
+        ...FONTS.body2,
+        color: COLORS.lightGray,
+        lineHeight: 22,
+    },
+   
+)};
