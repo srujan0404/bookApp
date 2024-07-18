@@ -24,7 +24,7 @@ const GenreDetail = ({ route, navigation }) => {
     React.useEffect(() => {
         let { genre } = route.params;
         setGenre(genre);
-    }, [genre]);
+    }, [route.params]);
 
     function renderGenreInfoSection() {
         return (
@@ -122,11 +122,14 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         paddingHorizontal: SIZES.radius,
-        height: 80,
-        alignItems: 'flex-end',
+        paddingTop: SIZES.padding,
+        paddingBottom: SIZES.base,
+        alignItems: 'center',
     },
     backButton: {
-        marginLeft: SIZES.base,
+        marginRight: SIZES.base,
+        paddingHorizontal: SIZES.base,
+        paddingVertical: SIZES.base,
     },
     backIcon: {
         width: 25,
@@ -153,13 +156,13 @@ const styles = StyleSheet.create({
     },
     genreInfoContainer: {
         flexDirection: 'row',
-        paddingVertical: 20,
-        margin: SIZES.padding,
+        justifyContent: 'space-around',
+        paddingVertical: SIZES.padding,
+        marginHorizontal: SIZES.padding,
         borderRadius: SIZES.radius,
         backgroundColor: "rgba(0,0,0,0.3)",
     },
     statItem: {
-        flex: 1,
         alignItems: 'center',
     },
     statValue: {
@@ -169,28 +172,29 @@ const styles = StyleSheet.create({
     statLabel: {
         ...FONTS.body4,
         color: COLORS.white,
+        marginTop: 4,
     },
     descriptionContainer: {
         flex: 2,
         padding: SIZES.padding,
     },
     scrollViewContent: {
-        paddingLeft: SIZES.padding2,
+        paddingLeft: SIZES.padding,
     },
     descriptionTitle: {
         ...FONTS.h2,
         color: COLORS.white,
-        marginBottom: SIZES.padding,
+        marginBottom: SIZES.base,
     },
     descriptionText: {
         ...FONTS.body2,
         color: COLORS.lightGray,
     },
     genreInfoWrapper: {
-        flex: 4,
+        flex: 3,
     },
     genreDescriptionWrapper: {
-        flex: 2,
+        flex: 4,
     },
 });
 
