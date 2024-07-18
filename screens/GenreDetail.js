@@ -4,14 +4,15 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    StyleSheet
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons } from "../constants";
 
 const LineDivider = () => {
     return (
-        <View style={{ width: 1, paddingVertical: 5 }}>
-            <View style={{ flex: 1, borderLeftColor: COLORS.lightGray2, borderLeftWidth: 1 }}></View>
+        <View style={styles.lineDividerContainer}>
+            <View style={styles.lineDivider}></View>
         </View>
     );
 }
@@ -27,54 +28,42 @@ const GenreDetail = ({ route, navigation }) => {
 
     function renderGenreInfoSection() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.infoSectionContainer}>
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.radius, height: 80, alignItems: 'flex-end' }}>
+                <View style={styles.headerContainer}>
                     <TouchableOpacity
-                        style={{ marginLeft: SIZES.base }}
+                        style={styles.backButton}
                         onPress={() => navigation.goBack()}
                     >
                         <Image
                             source={icons.back_arrow_icon}
                             resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: COLORS.white
-                            }}
+                            style={styles.backIcon}
                         />
                     </TouchableOpacity>
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>Genre Detail</Text>
+                    <View style={styles.headerTitleContainer}>
+                        <Text style={styles.headerTitle}>Genre Detail</Text>
                     </View>
                 </View>
 
                 {/* Genre Name */}
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: SIZES.padding }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.white }}>{genre.name}</Text>
+                <View style={styles.genreNameContainer}>
+                    <Text style={styles.genreName}>{genre.name}</Text>
                 </View>
 
                 {/* Genre Info */}
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        paddingVertical: 20,
-                        margin: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor: "rgba(0,0,0,0.3)"
-                    }}
-                >
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{genre.bookCount}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Books</Text>
+                <View style={styles.genreInfoContainer}>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statValue}>{genre.bookCount}</Text>
+                        <Text style={styles.statLabel}>Books</Text>
                     </View>
 
                     <LineDivider />
 
-                    <View style={{ flex: 1, paddingHorizontal: SIZES.radius, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{genre.popularity}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Popularity</Text>
+                    <View style={styles.statItem}>
+                        <Text style={styles.statValue}>{genre.popularity}</Text>
+                        <Text style={styles.statLabel}>Popularity</Text>
                     </View>
                 </View>
             </View>
@@ -83,14 +72,14 @@ const GenreDetail = ({ route, navigation }) => {
 
     function renderGenreDescription() {
         return (
-            <View style={{ flex: 1, padding: SIZES.padding }}>
+            <View style={styles.descriptionContainer}>
                 <ScrollView
-                    contentContainerStyle={{ paddingLeft: SIZES.padding2 }}
+                    contentContainerStyle={styles.scrollViewContent}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
                 >
-                    <Text style={{ ...FONTS.h2, color: COLORS.white, marginBottom: SIZES.padding }}>About the Genre</Text>
-                    <Text style={{ ...FONTS.body2, color: COLORS.lightGray }}>{genre.description}</Text>
+                    <Text style={styles.descriptionTitle}>About the Genre</Text>
+                    <Text style={styles.descriptionText}>{genre.description}</Text>
                 </ScrollView>
             </View>
         );
@@ -98,13 +87,12 @@ const GenreDetail = ({ route, navigation }) => {
 
     if (genre) {
         return (
-            <View style={{ flex: 1, backgroundColor: COLORS.black }}>
-                <View style={{ flex: 4 }}>
+            <View style={styles.container}>
+                <View style={styles.genreInfoWrapper}>
                     {renderGenreInfoSection()}
                 </View>
 
-                <View style={{
-                flex: 2 }}>
+                <View style={styles.genreDescriptionWrapper}>
                     {renderGenreDescription()}
                 </View>
             </View>
@@ -113,5 +101,97 @@ const GenreDetail = ({ route, navigation }) => {
         return (<></>);
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.black,
+    },
+    lineDividerContainer: {
+        width: 1,
+        paddingVertical: 5,
+    },
+    lineDivider: {
+        flex: 1,
+        borderLeftColor: COLORS.lightGray2,
+        borderLeftWidth: 1,
+    },
+    infoSectionContainer: {
+        flex: 1,
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: SIZES.radius,
+        height: 80,
+        alignItems: 'flex-end',
+    },
+    backButton: {
+        marginLeft: SIZES.base,
+    },
+    backIcon: {
+        width: 25,
+        height: 25,
+        tintColor: COLORS.white,
+    },
+    headerTitleContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerTitle: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    genreNameContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: SIZES.padding,
+    },
+    genreName: {
+        ...FONTS.h2,
+        color: COLORS.white,
+    },
+    genreInfoContainer: {
+        flexDirection: 'row',
+        paddingVertical: 20,
+        margin: SIZES.padding,
+        borderRadius: SIZES.radius,
+        backgroundColor: "rgba(0,0,0,0.3)",
+    },
+    statItem: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    statValue: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    statLabel: {
+        ...FONTS.body4,
+        color: COLORS.white,
+    },
+    descriptionContainer: {
+        flex: 2,
+        padding: SIZES.padding,
+    },
+    scrollViewContent: {
+        paddingLeft: SIZES.padding2,
+    },
+    descriptionTitle: {
+        ...FONTS.h2,
+        color: COLORS.white,
+        marginBottom: SIZES.padding,
+    },
+    descriptionText: {
+        ...FONTS.body2,
+        color: COLORS.lightGray,
+    },
+    genreInfoWrapper: {
+        flex: 4,
+    },
+    genreDescriptionWrapper: {
+        flex: 2,
+    },
+});
 
 export default GenreDetail;
