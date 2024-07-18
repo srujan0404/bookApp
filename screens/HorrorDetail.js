@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SIZES, FONTS } from "../constants";
 import GenreHeader from '../components/GenreHeader';
 import GenreInfo from '../components/GenreInfo';
@@ -37,12 +37,14 @@ const HorrorDetail = ({ navigation }) => {
 
             {/* Genre Description */}
             <View style={styles.descriptionContainer}>
-                <GenreDescription description={genre.description} />
+                <ScrollView>
+                    <GenreDescription description={genre.description} />
+                </ScrollView>
             </View>
 
-            {/* Book List (if needed) */}
+            {/* Book List */}
             <View style={styles.bookListContainer}>
-                <BookList books={genre.books} />
+                <BookList books={genre.books} navigation={navigation} />
             </View>
         </View>
     );
