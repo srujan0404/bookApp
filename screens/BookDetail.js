@@ -203,6 +203,38 @@ const BookDetail = ({ route, navigation }) => {
     }
 
     function renderBottomButton() {
+
+         const bookmarkButtonStyle = {
+        width: 60,
+        backgroundColor: COLORS.secondary,
+        marginLeft: SIZES.padding,
+        marginVertical: SIZES.base,
+        borderRadius: SIZES.radius,
+        alignItems: 'center',
+        justifyContent: 'center',
+    };
+
+    const startReadingButtonStyle = {
+        flex: 1,
+        backgroundColor: COLORS.primary,
+        marginHorizontal: SIZES.base,
+        marginVertical: SIZES.base,
+        borderRadius: SIZES.radius,
+        alignItems: 'center',
+        justifyContent: 'center',
+    };
+
+    const iconStyle = {
+        width: 25,
+        height: 25,
+        tintColor: COLORS.lightGray2,
+    };
+
+    const textStyle = {
+        ...FONTS.h3,
+        color: COLORS.white,
+    };
+
         return (
             <View style={{ flex: 1, flexDirection: 'row' }}>
                 {/* Bookmark */}
