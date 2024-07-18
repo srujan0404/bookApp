@@ -94,19 +94,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLORS.black,
-        padding: SIZES.padding
+        padding: SIZES.padding,
     },
     lineDividerContainer: {
         width: 1,
-        paddingVertical: 5
+        paddingVertical: 5,
     },
     lineDivider: {
         flex: 1,
         borderLeftColor: COLORS.lightGray2,
-        borderLeftWidth: 1
+        borderLeftWidth: 1,
     },
     infoSectionContainer: {
         flex: 1,
+        marginBottom: SIZES.padding,
     },
     headerContainer: {
         flexDirection: 'row',
@@ -143,9 +144,10 @@ const styles = StyleSheet.create({
     genreStatsContainer: {
         flexDirection: 'row',
         paddingVertical: 20,
-        margin: SIZES.padding,
+        paddingHorizontal: SIZES.padding,
         borderRadius: SIZES.radius,
-        backgroundColor: "rgba(0,0,0,0.3)",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        marginBottom: SIZES.padding,
     },
     statItem: {
         flex: 1,
@@ -157,14 +159,14 @@ const styles = StyleSheet.create({
     },
     statLabel: {
         ...FONTS.body4,
-        color: COLORS.white,
+        color: COLORS.lightGray,
     },
     descriptionContainer: {
         flex: 2,
-        padding: SIZES.padding,
+        paddingHorizontal: SIZES.padding,
     },
     scrollViewContent: {
-        paddingLeft: SIZES.padding2,
+        paddingTop: SIZES.padding,
     },
     descriptionTitle: {
         ...FONTS.h2,
@@ -174,6 +176,7 @@ const styles = StyleSheet.create({
     descriptionText: {
         ...FONTS.body2,
         color: COLORS.lightGray,
+        lineHeight: 22,
     },
 });
 

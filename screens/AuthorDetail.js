@@ -5,14 +5,15 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
-    Animated
+    Animated,
+    StyleSheet
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons } from "../constants";
 
 const LineDivider = () => {
     return (
-        <View style={{ width: 1, paddingVertical: 5 }}>
-            <View style={{ flex: 1, borderLeftColor: COLORS.lightGray2, borderLeftWidth: 1 }}></View>
+        <View style={styles.lineDividerContainer}>
+            <View style={styles.lineDivider}></View>
         </View>
     );
 }
@@ -31,63 +32,48 @@ const AuthorDetail = ({ route, navigation }) => {
 
     function renderAuthorInfoSection() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.authorInfoSection}>
                 <Image
                     source={author.profilePicture}
                     resizeMode="cover"
-                    style={{
-                        width: "100%",
-                        height: 200
-                    }}
+                    style={styles.authorImage}
                 />
 
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.radius, height: 80, alignItems: 'flex-end' }}>
+                <View style={styles.header}>
                     <TouchableOpacity
-                        style={{ marginLeft: SIZES.base }}
+                        style={styles.backButton}
                         onPress={() => navigation.goBack()}
                     >
                         <Image
                             source={icons.back_arrow_icon}
                             resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: COLORS.white
-                            }}
+                            style={styles.backIcon}
                         />
                     </TouchableOpacity>
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>Author Detail</Text>
+                    <View style={styles.headerTitle}>
+                        <Text style={styles.headerText}>Author Detail</Text>
                     </View>
                 </View>
 
                 {/* Author Name */}
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: SIZES.padding }}>
-                    <Text style={{ ...FONTS.h2, color: COLORS.white }}>{author.name}</Text>
+                <View style={styles.authorNameContainer}>
+                    <Text style={styles.authorName}>{author.name}</Text>
                 </View>
 
                 {/* Author Info */}
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        paddingVertical: 20,
-                        margin: SIZES.padding,
-                        borderRadius: SIZES.radius,
-                        backgroundColor: "rgba(0,0,0,0.3)"
-                    }}
-                >
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{author.booksWritten}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Books Written</Text>
+                <View style={styles.authorInfo}>
+                    <View style={styles.infoBlock}>
+                        <Text style={styles.infoText}>{author.booksWritten}</Text>
+                        <Text style={styles.infoLabel}>Books Written</Text>
                     </View>
 
                     <LineDivider />
 
-                    <View style={{ flex: 1, paddingHorizontal: SIZES.radius, alignItems: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: COLORS.white }}>{author.rating}</Text>
-                        <Text style={{ ...FONTS.body4, color: COLORS.white }}>Rating</Text>
+                    <View style={[styles.infoBlock, styles.infoBlockWithPadding]}>
+                        <Text style={styles.infoText}>{author.rating}</Text>
+                        <Text style={styles.infoLabel}>Rating</Text>
                     </View>
                 </View>
             </View>
@@ -99,32 +85,33 @@ const AuthorDetail = ({ route, navigation }) => {
         const difference = scrollViewVisibleHeight > indicatorSize ? scrollViewVisibleHeight - indicatorSize : 1;
 
         return (
-            <View style={{ flex: 1, flexDirection: 'row', padding: SIZES.padding }}>
-                <View style={{ width: 4, height: "100%", backgroundColor: COLORS.gray1 }}>
+            <View style={styles.descriptionContainer}>
+                <View style={styles.scrollIndicatorContainer}>
                     <Animated.View
-                        style={{
-                            width: 4,
-                            height: indicatorSize,
-                            backgroundColor: COLORS.lightGray4,
-                            transform: [{
-                                translateY: Animated.multiply(indicator, scrollViewVisibleHeight / scrollViewWholeHeight).interpolate({
-                                    inputRange: [0, difference],
-                                    outputRange: [0, difference],
-                                    extrapolate: 'clamp'
-                                })
-                            }]
-                        }}
+                        style={[
+                            styles.scrollIndicator,
+                            {
+                                height: indicatorSize,
+                                transform: [{
+                                    translateY: Animated.multiply(indicator, scrollViewVisibleHeight / scrollViewWholeHeight).interpolate({
+                                        inputRange: [0, difference],
+                                        outputRange: [0, difference],
+                                        extrapolate: 'clamp'
+                                    })
+                                }]
+                            }
+                        ]}
                     />
                 </View>
 
                 <ScrollView
-                    contentContainerStyle={{ paddingLeft: SIZES.padding2 }}
+                    contentContainerStyle={styles.scrollViewContent}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
                     onContentSizeChange={(width, height) => {
                         setScrollViewWholeHeight(height);
                     }}
-                    onLayout={({ nativeEvent: { layout: { x, y, width, height } } }) => {
+                    onLayout={({ nativeEvent: { layout: { height } } }) => {
                         setScrollViewVisibleHeight(height);
                     }}
                     onScroll={Animated.event(
@@ -132,8 +119,8 @@ const AuthorDetail = ({ route, navigation }) => {
                         { useNativeDriver: false }
                     )}
                 >
-                    <Text style={{ ...FONTS.h2, color: COLORS.white, marginBottom: SIZES.padding }}>About the Author</Text>
-                    <Text style={{ ...FONTS.body2, color: COLORS.lightGray }}>{author.description}</Text>
+                    <Text style={styles.descriptionTitle}>About the Author</Text>
+                    <Text style={styles.descriptionText}>{author.description}</Text>
                 </ScrollView>
             </View>
         );
@@ -141,19 +128,128 @@ const AuthorDetail = ({ route, navigation }) => {
 
     if (author) {
         return (
-            <View style={{ flex: 1, backgroundColor: COLORS.black }}>
-                <View style={{ flex: 4 }}>
+            <View style={styles.container}>
+                <View style={styles.infoSection}>
                     {renderAuthorInfoSection()}
                 </View>
 
-                <View style={{ flex: 2 }}>
+                <View style={styles.descriptionSection}>
                     {renderAuthorDescription()}
                 </View>
             </View>
         );
     } else {
-        return (<></>);
+        return null;
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.black,
+    },
+    authorInfoSection: {
+        flex: 4,
+    },
+    authorImage: {
+        width: "100%",
+        height: 200,
+    },
+    header: {
+        flexDirection: 'row',
+        paddingHorizontal: SIZES.radius,
+        height: 80,
+        alignItems: 'flex-end',
+    },
+    backButton: {
+        marginLeft: SIZES.base,
+    },
+    backIcon: {
+        width: 25,
+        height: 25,
+        tintColor: COLORS.white,
+    },
+    headerTitle: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerText: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    authorNameContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: SIZES.padding,
+    },
+    authorName: {
+        ...FONTS.h2,
+        color: COLORS.white,
+    },
+    authorInfo: {
+        flexDirection: 'row',
+        paddingVertical: 20,
+        margin: SIZES.padding,
+        borderRadius: SIZES.radius,
+        backgroundColor: "rgba(0,0,0,0.3)",
+    },
+    infoBlock: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    infoBlockWithPadding: {
+        paddingHorizontal: SIZES.radius,
+    },
+    infoText: {
+        ...FONTS.h3,
+        color: COLORS.white,
+    },
+    infoLabel: {
+        ...FONTS.body4,
+        color: COLORS.white,
+    },
+    lineDividerContainer: {
+        width: 1,
+        paddingVertical: 5,
+    },
+    lineDivider: {
+        flex: 1,
+        borderLeftColor: COLORS.lightGray2,
+        borderLeftWidth: 1,
+    },
+    descriptionContainer: {
+        flex: 2,
+        flexDirection: 'row',
+        padding: SIZES.padding,
+    },
+    scrollIndicatorContainer: {
+        width: 4,
+        height: "100%",
+        backgroundColor: COLORS.gray1,
+    },
+    scrollIndicator: {
+        width: 4,
+        backgroundColor: COLORS.lightGray4,
+    },
+    scrollViewContent: {
+        paddingLeft: SIZES.padding2,
+    },
+    descriptionTitle: {
+        ...FONTS.h2,
+        color: COLORS.white,
+        marginBottom: SIZES.padding,
+    },
+    descriptionText: {
+        ...FONTS.body2,
+        color: COLORS.lightGray,
+    },
+    infoSection: {
+        flex: 4,
+    },
+    descriptionSection: {
+        flex: 2,
+    },
+});
 
 export default AuthorDetail;

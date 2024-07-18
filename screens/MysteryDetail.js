@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         marginVertical: SIZES.padding,
     },
     genreName: {
-        ...FONTS.h2,
+        ...FONTS.h1,
         color: COLORS.white,
     },
     genreInfoContainer: {
@@ -149,19 +149,19 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         margin: SIZES.padding,
         borderRadius: SIZES.radius,
-        backgroundColor: "rgba(0,0,0,0.3)",
+        backgroundColor: "rgba(0,0,0,0.5)",
     },
     statItem: {
         flex: 1,
         alignItems: 'center',
     },
     statValue: {
-        ...FONTS.h3,
+        ...FONTS.h2,
         color: COLORS.white,
     },
     statLabel: {
         ...FONTS.body4,
-        color: COLORS.white,
+        color: COLORS.lightGray,
     },
     descriptionContainer: {
         flex: 1,
@@ -176,8 +176,9 @@ const styles = StyleSheet.create({
         marginBottom: SIZES.padding,
     },
     descriptionText: {
-        ...FONTS.body2,
+        ...FONTS.body3,
         color: COLORS.lightGray,
+        lineHeight: 22,
     },
     genreInfoWrapper: {
         flex: 4,
